@@ -1,0 +1,153 @@
+:root {
+    --navy: #0d1b3e;
+    --navy-light: #1a2d5a;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --white: #ffffff;
+    --gray: #f5f5f5;
+    --text-dark: #1a1a2e;
+    --text-muted: #6b7280;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: #fff; color: var(--text-dark); overflow-x: hidden; }
+
+  /* NAVBAR */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    background: rgba(13,27,62,0.97); backdrop-filter: blur(10px);
+    padding: 14px 60px; display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .nav-logo img { height: 40px; }
+  .nav-logo span { color: var(--gold); font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { color: rgba(255,255,255,0.85); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-btn {
+    background: var(--gold); color: var(--navy); padding: 9px 22px;
+    border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem;
+    transition: background 0.2s;
+  }
+  .nav-btn:hover { background: var(--gold-light); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 60%, #0a1628 100%);
+    display: flex; align-items: center; padding: 100px 60px 60px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(201,168,76,0.08) 0%, transparent 60%);
+  }
+  .hero-content { max-width: 560px; z-index: 1; }
+  .hero h1 {
+    font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 700;
+    color: var(--white); line-height: 1.2; margin-bottom: 18px;
+  }
+  .hero p { color: rgba(255,255,255,0.75); font-size: 1.05rem; margin-bottom: 36px; line-height: 1.6; }
+  .hero-btn {
+    background: var(--gold); color: var(--navy); padding: 14px 36px;
+    border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 1rem;
+    display: inline-block; transition: all 0.2s; box-shadow: 0 4px 20px rgba(201,168,76,0.35);
+  }
+  .hero-btn:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .hero-books {
+    position: absolute; right: 80px; top: 50%; transform: translateY(-50%);
+    font-size: 200px; opacity: 0.08; z-index: 0;
+  }
+
+  /* SECTIONS */
+  section { padding: 80px 60px; }
+  .section-title { text-align: center; margin-bottom: 50px; }
+  .section-title h2 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--navy); margin-bottom: 8px; }
+  .section-title p { color: var(--text-muted); font-size: 0.95rem; }
+
+  /* BOOK GRID */
+  .book-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .book-card {
+    background: var(--white); border-radius: 12px; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s;
+    border: 1px solid rgba(0,0,0,0.06);
+  }
+  .book-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
+  .book-cover {
+    height: 200px; display: flex; align-items: center; justify-content: center;
+    font-size: 60px; position: relative; overflow: hidden;
+  }
+  .book-info { padding: 14px; }
+  .book-info h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 6px; color: var(--text-dark); }
+  .stars { color: var(--gold); font-size: 0.8rem; }
+
+  /* APA ITU YOMULIB */
+  .about-section { background: var(--navy); color: white; }
+  .about-section .section-title h2 { color: var(--gold); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-top: 40px; }
+  .about-icon { font-size: 120px; text-align: center; opacity: 0.8; }
+  .about-card { background: rgba(255,255,255,0.08); border-radius: 12px; padding: 24px; margin-bottom: 16px; border: 1px solid rgba(201,168,76,0.2); }
+  .about-card p { color: rgba(255,255,255,0.8); line-height: 1.7; font-size: 0.95rem; }
+
+  /* FITUR */
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+  .feature-card {
+    background: var(--navy); color: white; border-radius: 16px; padding: 36px 28px; text-align: center;
+    border: 1px solid rgba(201,168,76,0.15);
+  }
+  .feature-icon { font-size: 48px; color: var(--gold); margin-bottom: 18px; }
+  .feature-card h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 10px; color: var(--white); }
+  .feature-card p { color: rgba(255,255,255,0.7); font-size: 0.9rem; line-height: 1.6; }
+
+  /* KATEGORI */
+  .kategori-section { background: #f8f9fc; }
+  .kategori-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .kategori-card {
+    border-radius: 14px; overflow: hidden; position: relative; height: 180px;
+    display: flex; align-items: flex-end; cursor: pointer;
+    transition: transform 0.3s;
+  }
+  .kategori-card:hover { transform: scale(1.02); }
+  .kategori-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(13,27,62,0.8) 0%, transparent 60%);
+  }
+  .kategori-name { position: relative; z-index: 1; padding: 18px; color: white; font-weight: 700; font-size: 1.1rem; }
+  .k1 { background: linear-gradient(135deg, #4a6fa5, #2d4a7a); }
+  .k2 { background: linear-gradient(135deg, #7a5c2a, #c9a84c); }
+  .k3 { background: linear-gradient(135deg, #2a5a4a, #48a07a); }
+  .k4 { background: linear-gradient(135deg, #5a2a4a, #a04878); }
+
+  /* TESTIMONI */
+  .testimoni-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .testi-card {
+    background: var(--navy); color: white; border-radius: 16px; padding: 28px;
+    border: 1px solid rgba(201,168,76,0.15);
+  }
+  .testi-avatar { width: 50px; height: 50px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; font-size: 24px; }
+  .testi-text { color: rgba(255,255,255,0.8); font-size: 0.88rem; line-height: 1.7; margin-bottom: 14px; text-align: center; font-style: italic; }
+  .testi-name { color: var(--gold); font-weight: 600; text-align: center; font-size: 0.9rem; }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy); color: white; padding: 50px 60px 30px;
+    border-top: 1px solid rgba(201,168,76,0.2);
+  }
+  .footer-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .footer-brand .logo { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .footer-brand .logo span { color: var(--gold); font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; }
+  .footer-brand p { color: rgba(255,255,255,0.6); font-size: 0.85rem; }
+  .footer-col h4 { color: var(--gold); font-weight: 600; margin-bottom: 16px; font-size: 1rem; }
+  .footer-col p, .footer-col a { color: rgba(255,255,255,0.7); font-size: 0.9rem; display: block; margin-bottom: 8px; text-decoration: none; }
+  .footer-col a:hover { color: var(--gold); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; text-align: center; color: rgba(255,255,255,0.4); font-size: 0.85rem; }
+
+  @media (max-width: 768px) {
+    nav { padding: 12px 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 20px 60px; }
+    .hero h1 { font-size: 2rem; }
+    section { padding: 60px 20px; }
+    .book-grid { grid-template-columns: repeat(2, 1fr); }
+    .about-grid, .features-grid, .testimoni-grid, .footer-grid { grid-template-columns: 1fr; }
+    .kategori-grid { grid-template-columns: 1fr; }
+  }

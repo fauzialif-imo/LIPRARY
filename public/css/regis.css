@@ -1,0 +1,95 @@
+:root {
+    --navy-dark: #0d1b3e;
+    --navy-light: #1a2d5a;
+    --gold: #c9a84c;
+    --white: #ffffff;
+    --gray-bg: #f3f4f6;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'DM Sans', sans-serif; background-color: var(--white); height: 100vh; overflow: hidden; }
+
+.container { display: flex; height: 100vh; }
+
+/* SISI KIRI: LOGO */
+.brand-side {
+    flex: 1.2;
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy-light) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.brand-side img { width: 70%; max-width: 450px; }
+
+/* SISI KANAN: FORM */
+.form-side {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.form-box { width: 100%; max-width: 400px; }
+.form-box h1 { 
+    font-size: 2.5rem; 
+    color: #333; 
+    margin-bottom: 30px; 
+    text-align: center;
+    font-weight: 700;
+}
+
+/* INPUT GROUP */
+.input-group {
+    position: relative;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    background: #e5e7eb;
+    border-radius: 8px;
+    padding: 0 15px;
+}
+
+.input-group i { color: #555; width: 20px; }
+
+.form-input {
+    width: 100%;
+    padding: 15px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: #333;
+}
+
+select.form-input { appearance: none; cursor: pointer; }
+
+.password-toggle { cursor: pointer; position: absolute; right: 15px; color: #777; }
+
+/* BUTTON & TEXT */
+.error-msg { color: #dc2626; font-size: 0.8rem; margin-bottom: 15px; display: block; }
+
+.btn-register {
+    width: 100%;
+    background-color: var(--navy-light);
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-register:hover { background-color: var(--navy-dark); }
+
+.footer-text { text-align: center; margin-top: 20px; color: #666; }
+.footer-text a { color: #3b82f6; text-decoration: none; font-weight: 600; }
+
+@media (max-width: 768px) {
+    .brand-side { display: none; }
+}

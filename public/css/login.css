@@ -1,0 +1,151 @@
+/* 1. Reset & General Styling */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+  overflow: hidden; /* Mencegah scroll yang tidak diinginkan */
+}
+
+/* 2. Layout Container (Membagi layar jadi 2) */
+.login-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Sisi Kiri (Biru Gelap) */
+.left-side {
+  flex: 1; 
+  background-color: #091a2e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-logo {
+  width: 70%;
+  max-width: 480px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Sisi Kanan (Putih) */
+.right-side {
+  flex: 1;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-wrapper {
+  width: 100%;
+  max-width: 405px; /* Lebar form sesuai desain awal */
+  text-align: center;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 40px;
+}
+
+/* 3. Input & Icon Grouping */
+.input-group {
+  position: relative;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+/* Ikon Utama (User, Email, Key) di sisi kiri */
+.icon-main {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 22px;
+  z-index: 10;
+  pointer-events: none; /* Klik tembus ke input */
+}
+
+/* Input Box Abu-abu */
+.form-input {
+  width: 100%;
+  height: 44px;
+  background-color: #d9d9d9;
+  border: none;
+  border-radius: 5px;
+  padding: 0 45px; /* Ruang kiri untuk icon-main, kanan untuk icon-eye */
+  font-size: 16px;
+  color: #000;
+  outline: none;
+}
+
+/* 4. Khusus Bagian Password agar Ikon Mata di Pojok */
+.password-field {
+  position: relative;
+  width: 100%;
+}
+
+.icon-eye {
+  position: absolute;
+  right: 20px; /* Menempel di pojok kanan dalam kotak */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  cursor: pointer;
+  z-index: 20; /* Pastikan di atas input agar bisa diklik */
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.icon-eye:hover {
+  opacity: 1;
+}
+
+/* 5. Buttons & Links */
+.forgot-password {
+  display: block;
+  text-align: right;
+  font-size: 12px;
+  color: #a60000;
+  text-decoration: none;
+  margin-top: 5px;
+  margin-bottom: 30px;
+}
+
+.btn-login {
+  width: 60%; /* Sesuai gambar, tombol login lebih kecil dari kolom input */
+  height: 44px;
+  background-color: #1b344a;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-login:hover {
+  background-color: #091a2e;
+}
+
+.footer-text {
+  margin-top: 15px;
+  font-size: 13px;
+  color: #000;
+}
+
+.link-daftar {
+  color: #0d00ff;
+  text-decoration: none;
+  font-weight: 700;
+}
