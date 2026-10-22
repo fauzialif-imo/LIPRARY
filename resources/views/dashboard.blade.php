@@ -6,7 +6,7 @@
   <div style="position:absolute;right:40px;top:50%;transform:translateY(-50%);font-size:8rem;opacity:.06">📚</div>
   <div style="flex:1;position:relative">
     <div style="font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px">Selamat datang di</div>
-    <div style="font-family:'Playfair Display',serif;font-size:2rem;color:#fff;line-height:1.2;margin-bottom:10px">YOMULIB</div>
+    <div style="font-family:'Playfair Display',serif;font-size:2rem;color:#fff;line-height:1.2;margin-bottom:10px">{{ \App\Models\Setting::get('navbar_site_name','YOMULIB') }}</div>
     <div style="font-size:.9rem;color:rgba(255,255,255,.6);margin-bottom:20px">Perpustakaan digital untuk membaca, belajar, dan berkembang.</div>
     <a href="{{ route('buku') }}" class="btn-primary-gold"><i class="fas fa-search"></i>Jelajahi Koleksi</a>
   </div>

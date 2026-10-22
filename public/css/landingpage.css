@@ -65,11 +65,13 @@
   .section-title p { color: var(--text-muted); font-size: 0.95rem; }
 
   /* BOOK GRID */
-  .book-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .book-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; perspective: 1000px; }
   .book-card {
     background: var(--white); border-radius: 12px; overflow: hidden;
     box-shadow: 0 4px 20px rgba(0,0,0,0.08); transition: all 0.3s;
     border: 1px solid rgba(0,0,0,0.06);
+    transform-style: preserve-3d;
+    will-change: transform;
   }
   .book-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.15); }
   .book-cover {
@@ -84,34 +86,125 @@
   .about-section { background: var(--navy); color: white; }
   .about-section .section-title h2 { color: var(--gold); }
   .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-top: 40px; }
-  .about-icon { font-size: 120px; text-align: center; opacity: 0.8; }
+  .about-icon { display:flex; align-items:center; justify-content:center; opacity: 0.95; }
   .about-card { background: rgba(255,255,255,0.08); border-radius: 12px; padding: 24px; margin-bottom: 16px; border: 1px solid rgba(201,168,76,0.2); }
   .about-card p { color: rgba(255,255,255,0.8); line-height: 1.7; font-size: 0.95rem; }
 
   /* FITUR */
   .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
   .feature-card {
-    background: var(--navy); color: white; border-radius: 16px; padding: 36px 28px; text-align: center;
-    border: 1px solid rgba(201,168,76,0.15);
+    background: var(--navy);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+    min-height: 260px;
+    display: flex;
+    align-items: flex-end;
+    border: 1px solid rgba(201,168,76,.15);
+    cursor: default;
+    transition: transform .35s cubic-bezier(.25,.8,.25,1), box-shadow .35s;
+    background-size: cover;
+    background-position: center;
   }
-  .feature-icon { font-size: 48px; color: var(--gold); margin-bottom: 18px; }
-  .feature-card h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin-bottom: 10px; color: var(--white); }
-  .feature-card p { color: rgba(255,255,255,0.7); font-size: 0.9rem; line-height: 1.6; }
+  .feature-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(0,0,0,.3);
+  }
+  .feature-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(10,18,50,.92) 0%, rgba(10,18,50,.5) 55%, rgba(10,18,50,.15) 100%);
+    transition: background .35s;
+  }
+  .feature-card:hover .feature-overlay {
+    background: linear-gradient(to top, rgba(10,18,50,.96) 0%, rgba(10,18,50,.6) 55%, rgba(10,18,50,.25) 100%);
+  }
+  .feature-body {
+    position: relative; z-index: 2;
+    padding: 28px;
+    text-align: center;
+    width: 100%;
+  }
+  .feature-icon {
+    font-size: 2.6rem;
+    color: var(--gold);
+    margin-bottom: 14px;
+    display: block;
+    transition: transform .35s, color .35s;
+  }
+  .feature-card:hover .feature-icon {
+    transform: scale(1.15) translateY(-4px);
+    color: var(--gold-light);
+  }
+  .feature-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    margin-bottom: 8px;
+    color: var(--white);
+    transition: color .2s;
+  }
+  .feature-card:hover h3 { color: var(--gold-light); }
+  .feature-card p {
+    color: rgba(255,255,255,.65);
+    font-size: .88rem;
+    line-height: 1.6;
+    transition: color .2s;
+  }
+  .feature-card:hover p { color: rgba(255,255,255,.85); }
 
   /* KATEGORI */
   .kategori-section { background: #f8f9fc; }
   .kategori-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .kategori-card {
-    border-radius: 14px; overflow: hidden; position: relative; height: 180px;
-    display: flex; align-items: flex-end; cursor: pointer;
-    transition: transform 0.3s;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    height: 200px;
+    display: flex;
+    align-items: flex-end;
+    cursor: pointer;
+    transition: transform .35s cubic-bezier(.25,.8,.25,1), box-shadow .35s;
+    background-size: cover;
+    background-position: center;
   }
-  .kategori-card:hover { transform: scale(1.02); }
+  .kategori-card:hover {
+    transform: translateY(-6px) scale(1.015);
+    box-shadow: 0 16px 48px rgba(0,0,0,.25);
+  }
   .kategori-overlay {
     position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(13,27,62,0.8) 0%, transparent 60%);
+    background: linear-gradient(to top, rgba(13,27,62,.85) 0%, rgba(13,27,62,.3) 60%, transparent 100%);
+    transition: background .35s;
   }
-  .kategori-name { position: relative; z-index: 1; padding: 18px; color: white; font-weight: 700; font-size: 1.1rem; }
+  .kategori-card:hover .kategori-overlay {
+    background: linear-gradient(to top, rgba(13,27,62,.92) 0%, rgba(13,27,62,.5) 60%, rgba(201,168,76,.08) 100%);
+  }
+  .kategori-name {
+    position: relative; z-index: 1;
+    padding: 20px 22px;
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: gap .25s, padding .25s;
+  }
+  .kategori-card:hover .kategori-name { gap: 14px; padding-bottom: 24px; }
+  .kategori-name i {
+    background: rgba(201,168,76,.2);
+    border: 1px solid rgba(201,168,76,.4);
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .9rem;
+    color: var(--gold);
+    flex-shrink: 0;
+    transition: background .25s, transform .25s;
+  }
+  .kategori-card:hover .kategori-name i {
+    background: rgba(201,168,76,.35);
+    transform: scale(1.1);
+  }
   .k1 { background: linear-gradient(135deg, #4a6fa5, #2d4a7a); }
   .k2 { background: linear-gradient(135deg, #7a5c2a, #c9a84c); }
   .k3 { background: linear-gradient(135deg, #2a5a4a, #48a07a); }
@@ -123,7 +216,7 @@
     background: var(--navy); color: white; border-radius: 16px; padding: 28px;
     border: 1px solid rgba(201,168,76,0.15);
   }
-  .testi-avatar { width: 50px; height: 50px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; font-size: 24px; }
+  .testi-avatar { display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
   .testi-text { color: rgba(255,255,255,0.8); font-size: 0.88rem; line-height: 1.7; margin-bottom: 14px; text-align: center; font-style: italic; }
   .testi-name { color: var(--gold); font-weight: 600; text-align: center; font-size: 0.9rem; }
 

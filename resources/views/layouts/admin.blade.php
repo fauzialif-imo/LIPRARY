@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>@yield('title','Admin') — YomuLib</title>
+<title>@yield('title','Admin') — {{ \App\Models\Setting::get('navbar_site_name','YomuLib') }}</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -38,7 +38,7 @@ input,select,textarea{font-family:inherit}
 .logo-name{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--gold);letter-spacing:-.01em;margin-left:10px}
 .logo-badge{margin-left:auto;font-size:.6rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:rgba(201,168,76,.15);color:var(--gold);padding:2px 8px;border-radius:99px;flex-shrink:0}
 
-.sidebar-nav{flex:1;padding:14px 10px;overflow-y:auto}
+.sidebar-nav{flex:1;padding:14px 10px;overflow-y:auto;scroll-behavior:auto}
 .nav-section-label{font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.2);padding:0 10px;margin:16px 0 6px}
 .nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:.83rem;font-weight:500;color:rgba(255,255,255,.45);cursor:pointer;transition:all .15s;margin-bottom:2px}
 .nav-item:hover{background:rgba(201,168,76,.08);color:rgba(255,255,255,.8)}
@@ -178,7 +178,7 @@ input,select,textarea{font-family:inherit}
     <div class="logo-mark">
       <i class="fas fa-book-open" style="color:var(--navy-dark);font-size:16px;"></i>
     </div>
-    <span class="logo-name">YOMULIB</span>
+    <span class="logo-name">{{ \App\Models\Setting::get('navbar_site_name','YOMULIB') }}</span>
     <span class="logo-badge">{{ auth()->user()->role === 'admin' ? 'Admin' : 'Petugas' }}</span>
   </div>
 
@@ -235,6 +235,49 @@ input,select,textarea{font-family:inherit}
       <i class="fas fa-file-alt"></i>Generate Laporan
     </a>
     @endif
+
+    @if(auth()->user()->role === 'admin')
+    <div class="sidebar-div"></div>
+    <div class="nav-section-label">Sistem</div>
+
+    {{-- Pengaturan dropdown --}}
+    @php
+      $settingActive = request()->routeIs('admin.settings.*');
+    @endphp
+    <div class="nav-item {{ $settingActive ? 'active' : '' }}"
+         onclick="toggleSettingMenu()"
+         style="cursor:pointer;justify-content:space-between"
+         id="navSettingParent">
+      <span style="display:flex;align-items:center;gap:10px">
+        <i class="fas fa-sliders-h"></i>Pengaturan Situs
+      </span>
+      <i class="fas fa-chevron-down" id="settingChevron"
+         style="font-size:.6rem;transition:transform .2s;{{ $settingActive ? 'transform:rotate(180deg)' : '' }}"></i>
+    </div>
+
+    <div id="settingSubmenu" style="{{ $settingActive ? '' : 'display:none' }}">
+      <a href="{{ route('admin.settings.hero') }}"
+         class="nav-item {{ request()->routeIs('admin.settings.hero') ? 'active' : '' }}"
+         style="padding-left:36px;font-size:.78rem">
+        <i class="fas fa-home" style="font-size:.75rem"></i>Hero
+      </a>
+      <a href="{{ route('admin.settings.tentang') }}"
+         class="nav-item {{ request()->routeIs('admin.settings.tentang') ? 'active' : '' }}"
+         style="padding-left:36px;font-size:.78rem">
+        <i class="fas fa-info-circle" style="font-size:.75rem"></i>Tentang
+      </a>
+      <a href="{{ route('admin.settings.fitur') }}"
+         class="nav-item {{ request()->routeIs('admin.settings.fitur') ? 'active' : '' }}"
+         style="padding-left:36px;font-size:.78rem">
+        <i class="fas fa-th-large" style="font-size:.75rem"></i>Fitur Unggulan
+      </a>
+      <a href="{{ route('admin.settings.kategori') }}"
+         class="nav-item {{ request()->routeIs('admin.settings.kategori') ? 'active' : '' }}"
+         style="padding-left:36px;font-size:.78rem">
+        <i class="fas fa-images" style="font-size:.75rem"></i>Kategori
+      </a>
+    </div>
+    @endif
   </nav>
 
   <div class="sidebar-footer">
@@ -289,6 +332,50 @@ input,select,textarea{font-family:inherit}
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
 function showToast(msg){const t=document.getElementById('dl-toast');t.textContent=msg;t.style.opacity=1;t.style.transform='translateX(-50%) translateY(0)';setTimeout(()=>{t.style.opacity=0;t.style.transform='translateX(-50%) translateY(20px)'},2500);}
+
+function toggleSettingMenu(){
+    const menu    = document.getElementById('settingSubmenu');
+    const chevron = document.getElementById('settingChevron');
+    const parent  = document.getElementById('navSettingParent');
+    const open    = menu.style.display === 'none' || menu.style.display === '';
+    menu.style.display = open ? 'block' : 'none';
+    chevron.style.transform = open ? 'rotate(180deg)' : '';
+    parent.classList.toggle('active', open);
+}
+
+// ── Persist sidebar scroll position across navigation ──
+(function () {
+    const KEY = 'sidebarScroll';
+
+    function restoreScroll() {
+        const nav   = document.querySelector('.sidebar-nav');
+        const saved = sessionStorage.getItem(KEY);
+        if (nav && saved) nav.scrollTop = parseInt(saved, 10);
+    }
+
+    // Try immediately (script runs after sidebar HTML is parsed)
+    restoreScroll();
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Try again after full DOM ready in case first attempt was too early
+        restoreScroll();
+
+        const nav = document.querySelector('.sidebar-nav');
+        if (!nav) return;
+
+        // Save on every scroll
+        nav.addEventListener('scroll', function () {
+            sessionStorage.setItem(KEY, nav.scrollTop);
+        }, { passive: true });
+
+        // Save before leaving the page
+        document.querySelectorAll('.sidebar-nav a').forEach(el => {
+            el.addEventListener('click', function () {
+                sessionStorage.setItem(KEY, nav.scrollTop);
+            });
+        });
+    });
+})();
 </script>
 @stack('scripts')
 </body>

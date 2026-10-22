@@ -1,10 +1,10 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{AuthController, DashboardController, ProfileController, BookController, BorrowingController};
+use App\Http\Controllers\{AuthController, DashboardController, ProfileController, BookController, BorrowingController, ChatbotController, NotificationController};
 use App\Http\Controllers\Admin;
 
 // Landing
-Route::get('/', fn() => view('landingpage'));
+Route::get('/', [App\Http\Controllers\LandingController::class, 'index']);
 
 // Auth
 Route::get('/login',    [AuthController::class, 'showLogin'])->name('login');
@@ -30,6 +30,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/profile',          [ProfileController::class, 'index'])->name('profile');
     Route::post('/profile/update',  [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::post('/chatbot', [ChatbotController::class, 'reply'])->name('chatbot.reply');
+
+    // Notifications
+    Route::get('/notifications',              [NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/{notification}/read', [NotificationController::class, 'markRead'])->name('notifications.read');
+    Route::post('/notifications/read-all',    [NotificationController::class, 'markAllRead'])->name('notifications.read-all');
 });
 
 // Admin (auth + admin middleware)
@@ -74,4 +81,20 @@ Route::middleware(['auth', \App\Http\Middleware\AdminMiddleware::class])
     Route::get('/laporan/peminjaman',  [Admin\ReportController::class, 'borrowings'])->name('reports.borrowings');
     Route::get('/laporan/petugas',     [Admin\ReportController::class, 'staff'])->name('reports.staff');
     Route::get('/laporan/user',        [Admin\ReportController::class, 'users'])->name('reports.users');
+
+    // Site Settings — per section (admin only)
+    Route::get('/pengaturan/hero',      [Admin\SettingController::class, 'hero'])->name('settings.hero');
+    Route::put('/pengaturan/hero',      [Admin\SettingController::class, 'updateHero'])->name('settings.hero.update');
+
+    Route::get('/pengaturan/tentang',   [Admin\SettingController::class, 'tentang'])->name('settings.tentang');
+    Route::put('/pengaturan/tentang',   [Admin\SettingController::class, 'updateTentang'])->name('settings.tentang.update');
+
+    Route::get('/pengaturan/fitur',     [Admin\SettingController::class, 'fitur'])->name('settings.fitur');
+    Route::put('/pengaturan/fitur',     [Admin\SettingController::class, 'updateFitur'])->name('settings.fitur.update');
+
+    Route::get('/pengaturan/kategori',  [Admin\SettingController::class, 'kategori'])->name('settings.kategori');
+    Route::put('/pengaturan/kategori',  [Admin\SettingController::class, 'updateKategori'])->name('settings.kategori.update');
+
+    // Legacy redirect
+    Route::get('/pengaturan',  fn() => redirect()->route('admin.settings.hero'))->name('settings.index');
 });

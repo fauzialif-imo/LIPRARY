@@ -108,7 +108,7 @@
     <a href="{{ route('dashboard') }}" class="nav-logo">
         <i class="fas fa-book-open"></i>
         <div>
-            <span>YOMULIB</span>
+            <span>{{ \App\Models\Setting::get('navbar_site_name','YOMULIB') }}</span>
             <small>PERPUSTAKAAN DIGITAL SMK</small>
         </div>
     </a>

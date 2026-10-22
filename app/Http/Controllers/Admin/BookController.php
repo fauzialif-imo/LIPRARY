@@ -2,7 +2,7 @@
 namespace App\Http\Controllers\Admin;
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
-use App\Models\{Book, Category};
+use App\Models\{Book, Category, Notification};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -30,7 +30,16 @@ class BookController extends Controller {
         ]);
         if (!empty($data['publish_date'])) $data['publish_date'] = $data['publish_date'].'-01-01';
         if ($request->hasFile('cover')) $data['cover'] = $request->file('cover')->store('covers','public');
-        Book::create($data);
+        $book = Book::create($data);
+
+        // Notify all active users about new book
+        Notification::broadcast(
+            'book_new',
+            '📖 Buku Baru Tersedia!',
+            "Buku baru \"{$book->title}\" oleh {$book->author} sudah bisa dipinjam.",
+            ['url' => route('buku.show', $book)]
+        );
+
         return redirect()->route('admin.books.index')->with('success','Buku berhasil ditambahkan!');
     }
     public function show(Book $book) {

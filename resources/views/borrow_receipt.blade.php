@@ -4,7 +4,7 @@
 <div style="max-width:560px;margin:0 auto">
   <div class="dl-card-p">
     <div style="text-align:center;margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid var(--border)">
-      <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--navy)">YOMULIB</div>
+      <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--navy)">{{ \App\Models\Setting::get('navbar_site_name','YOMULIB') }}</div>
       <div style="font-size:.7rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase">Bukti Peminjaman</div>
     </div>
     @php $b = $borrowing; @endphp

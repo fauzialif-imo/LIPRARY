@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>@yield('title','YomuLib') — Perpustakaan Digital</title>
+<title>@yield('title', \App\Models\Setting::get('navbar_site_name','YomuLib')) — Perpustakaan Digital</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -79,8 +79,15 @@ a{text-decoration:none;color:inherit}
 </head>
 <body>
 <nav class="site-nav">
+  @php $__siteName = \App\Models\Setting::get('navbar_site_name','YomuLib'); $__navLogo = \App\Models\Setting::get('navbar_logo'); @endphp
   <a href="{{ route('dashboard') }}" class="logo">
-    <div class="logo-mark"><i class="fas fa-book-open"></i></div>YOMULIB
+    <div class="logo-mark">
+      @if($__navLogo)
+        <img src="{{ asset('storage/'.$__navLogo) }}" style="height:22px;width:auto;object-fit:contain">
+      @else
+        <i class="fas fa-book-open"></i>
+      @endif
+    </div>{{ $__siteName }}
   </a>
   <div class="nav-links">
     <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard')?'active':'' }}">Beranda</a>
@@ -92,6 +99,35 @@ a{text-decoration:none;color:inherit}
     <a href="{{ route('admin.dashboard') }}" class="nav-btn nav-btn-outline" style="margin-right:8px"><i class="fas fa-tachometer-alt"></i> Admin</a>
   @endif
   @auth
+  {{-- Notification Bell --}}
+  <div style="position:relative;margin-right:4px">
+    <button id="notif-btn" onclick="toggleNotif(event)"
+      style="width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;position:relative;transition:all .15s"
+      onmouseover="this.style.background='rgba(201,168,76,.15)';this.style.color='#c9a84c'"
+      onmouseout="if(!document.getElementById('notif-dropdown').classList.contains('open')){this.style.background='rgba(255,255,255,.08)';this.style.color='rgba(255,255,255,.7)'}">
+      <i class="fas fa-bell"></i>
+      <span id="notif-badge"
+        style="display:none;position:absolute;top:4px;right:4px;width:16px;height:16px;background:#e74c3c;border-radius:50%;font-size:.55rem;font-weight:700;color:#fff;line-height:16px;text-align:center;border:2px solid var(--navy-dark)"></span>
+    </button>
+
+    {{-- Dropdown --}}
+    <div id="notif-dropdown"
+      style="display:none;position:absolute;top:calc(100% + 10px);right:0;width:320px;background:#fff;border-radius:14px;box-shadow:0 8px 40px rgba(13,27,62,.2);border:1px solid #dde0ea;overflow:hidden;z-index:500">
+      <div style="padding:14px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #dde0ea">
+        <span style="font-weight:700;font-size:.88rem;color:#1a1a2e">Notifikasi</span>
+        <button onclick="markAllRead()" style="font-size:.7rem;color:#c9a84c;background:none;border:none;cursor:pointer;font-weight:600">Tandai semua dibaca</button>
+      </div>
+      <div id="notif-list" style="max-height:380px;overflow-y:auto">
+        <div style="padding:32px 16px;text-align:center;color:#9ca3af;font-size:.82rem">
+          <i class="fas fa-bell" style="font-size:1.5rem;margin-bottom:8px;display:block;opacity:.3"></i>
+          Memuat notifikasi...
+        </div>
+      </div>
+      <div style="padding:10px 16px;border-top:1px solid #dde0ea;text-align:center">
+        <a href="{{ route('dashboard') }}" style="font-size:.75rem;color:#c9a84c;font-weight:600">Lihat semua aktivitas →</a>
+      </div>
+    </div>
+  </div>
   <div class="nav-user dropdown">
     <div data-bs-toggle="dropdown" style="display:flex;align-items:center;gap:8px;cursor:pointer">
       @if(auth()->user()->profile_photo)
@@ -129,5 +165,6 @@ a{text-decoration:none;color:inherit}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 @stack('scripts')
+@include('partials.chatbot')
 </body>
 </html>
